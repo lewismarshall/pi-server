@@ -1,0 +1,10 @@
+[Unit]
+Description=Minecraft Update Service
+After=network.target
+
+[Service]
+WorkingDirectory=/media/pi/charlies-disk/nukkit
+ExecStartPre=-/bin/systemctl stop minecraft.service
+ExecStart=/usr/bin/curl --fail https://ci.nukkitx.com/job/NukkitX/job/Nukkit/job/master/lastStableBuild/artifact/target/nukkit-1.0-SNAPSHOT.jar -o nukkit-1.0-SNAPSHOT.jar
+ExecStartPost=-/bin/systemctl start minecraft.service
+

@@ -1,0 +1,24 @@
+[Unit]
+Description=Nukkit Minecraft Server
+After=network.target
+
+[Service]
+WorkingDirectory=/media/pi/charlies-disk/nukkit
+
+User=pi
+Group=pi
+
+Restart=always
+RestartSec=3
+ExecStart=/usr/bin/screen -DmS mc-screen /usr/bin/java -jar nukkit-1.0-SNAPSHOT.jar . nogui
+ExecStop=/usr/bin/screen -p 0 -S mc-screen -X eval 'stuff "say SERVER SHUTTING DOWN IN 15 SECONDS..."\015'
+ExecStop=/bin/sleep 5
+ExecStop=/usr/bin/screen -p 0 -S mc-screen -X eval 'stuff "say SERVER SHUTTING DOWN IN 10 SECONDS..."\015'
+ExecStop=/bin/sleep 5
+ExecStop=/usr/bin/screen -p 0 -S mc-screen -X eval 'stuff "say SERVER SHUTTING DOWN IN 5 SECONDS..."\015'
+ExecStop=/bin/sleep 5
+ExecStop=/usr/bin/screen -p 0 -S mc-screen -X eval 'stuff "save-all"\015'
+ExecStop=/usr/bin/screen -p 0 -S mc-screen -X eval 'stuff "stop"\015'
+
+[Install]
+WantedBy=multi-user.target

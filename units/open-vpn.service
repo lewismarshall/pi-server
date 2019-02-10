@@ -1,0 +1,14 @@
+[Unit]
+Description=Openvpn Container
+After=docker.service
+Requires=docker.service
+ 
+[Service]
+TimeoutStartSec=30
+Restart=always
+ExecStartPre=-/usr/bin/docker stop %n
+ExecStartPre=-/usr/bin/docker rm %n
+ExecStart=/usr/bin/docker run -i --rm --name %n -v /etc/openvpn:/etc/openvpn -p 1194:1194/udp --cap-add=NET_ADMIN mjenz/rpi-openvpn
+ 
+[Install]
+WantedBy=multi-user.target
